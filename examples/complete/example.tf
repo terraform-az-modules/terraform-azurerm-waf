@@ -9,7 +9,7 @@ provider "azurerm" {
 module "resource_group" {
   source      = "terraform-az-modules/resource-group/azurerm"
   version     = "1.0.3"
-  name        = "waf-test"
+  name        = "waf"
   environment = "test"
   label_order = ["environment", "name", ]
   location    = "Canada Central"
@@ -266,6 +266,7 @@ module "waf" {
 module "application_gateway" {
   source              = "terraform-az-modules/application-gateway/azurerm"
   name                = "appgw-demo"
+  version             = "1.0.0"
   location            = module.resource_group.resource_group_location
   resource_group_name = module.resource_group.resource_group_name
 
@@ -281,7 +282,7 @@ module "application_gateway" {
 
   # Frontend IP configuration
   frontend_ip_configuration_name = "sappgw-feip"
-
+   
   # Frontend Ports
   frontend_port_settings = [
     {
