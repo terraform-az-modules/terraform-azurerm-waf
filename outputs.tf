@@ -7,41 +7,41 @@ output "label_order" {
 }
 
 output "waf_policy_id" {
-  description = "The ID of the Azure WAF policy."
   value       = azurerm_web_application_firewall_policy.waf.id
+  description = "The ID of the Azure WAF policy."
 }
 
 output "waf_policy_name" {
-  description = "The name of the WAF policy."
   value       = azurerm_web_application_firewall_policy.waf.name
+  description = "The name of the WAF policy."
 }
 
 output "waf_policy_mode" {
+  value       = one(azurerm_web_application_firewall_policy.waf.policy_settings).mode
   description = "The mode of the WAF policy."
-  value       = azurerm_web_application_firewall_policy.waf.policy_settings[0].mode
 }
 
 output "waf_policy_enabled" {
+  value       = one(azurerm_web_application_firewall_policy.waf.policy_settings).enabled
   description = "Whether the WAF policy is enabled."
-  value       = azurerm_web_application_firewall_policy.waf.policy_settings[0].enabled
 }
 
 output "waf_managed_rule_sets" {
-  description = "Managed rule set configuration used in this WAF policy."
   value       = var.managed_rule_set_configuration
+  description = "Managed rule set configuration used in this WAF policy."
 }
 
 output "waf_exclusion_rules" {
-  description = "Exclusion configuration applied to the WAF policy."
   value       = var.exclusion_configuration
+  description = "Exclusion configuration applied to the WAF policy."
 }
 
 output "waf_custom_rules" {
-  description = "Custom rules configured inside the WAF policy."
   value       = var.custom_rules_configuration
+  description = "Custom rules configured inside the WAF policy."
 }
 
 output "waf_tags" {
-  description = "Tags applied to the WAF policy."
   value       = azurerm_web_application_firewall_policy.waf.tags
+  description = "Tags applied to the WAF policy."
 }

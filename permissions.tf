@@ -1,28 +1,17 @@
 ##-----------------------------------------------------------------------------
 ## Permissions, Roles, and Policies
 ##-----------------------------------------------------------------------------
-variable "assign_contributor_role" {
-  description = "Whether to assign Contributor role to WAF (optional)"
-  type        = bool
-  default     = false
-}
+# resource "azurerm_role_assignment" "waf_contributor" {
+#   count = var.assign_contributor_role && var.role_assignment_scope != null ? length(var.principal_ids) : 0
 
-variable "role_assignment_scope" {
-  description = "Scope for role assignment (subscription or resource group)"
-  type        = string
-  default     = null
-}
-
-variable "principal_ids" {
-  description = "List of principal IDs to assign role to (optional)"
-  type        = list(string)
-  default     = []
-}
-
+#   scope                = var.role_assignment_scope
+#   role_definition_name = "Contributor"
+#   principal_id         = var.principal_ids[count.index]
+# }
 resource "azurerm_role_assignment" "waf_contributor" {
-  count = var.assign_contributor_role && var.role_assignment_scope != null ? length(var.principal_ids) : 0
+  for_each = var.assign_contributor_role && var.role_assignment_scope != null ? toset(var.principal_ids) : []
 
   scope                = var.role_assignment_scope
   role_definition_name = "Contributor"
-  principal_id         = var.principal_ids[count.index]
+  principal_id         = each.value
 }

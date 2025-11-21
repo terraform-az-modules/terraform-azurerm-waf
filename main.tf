@@ -1,4 +1,20 @@
 ##-----------------------------------------------------------------------------
+## Standard Tagging Module – Applies standard tags to all resources for traceability
+##-----------------------------------------------------------------------------
+module "labels" {
+  source          = "terraform-az-modules/tags/azurerm"
+  version         = "1.0.2"
+  name            = var.custom_name == null ? var.name : var.custom_name
+  location        = var.location
+  environment     = var.environment
+  managedby       = var.managedby
+  label_order     = var.label_order
+  repository      = var.repository
+  deployment_mode = var.deployment_mode
+  extra_tags      = var.extra_tags
+}
+
+##-----------------------------------------------------------------------------
 ## Azure WAF Policy - Main Resource
 ##-----------------------------------------------------------------------------
 resource "azurerm_web_application_firewall_policy" "waf" {
@@ -6,9 +22,7 @@ resource "azurerm_web_application_firewall_policy" "waf" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  # ---------------------------
   # POLICY SETTINGS
-  # ---------------------------
   policy_settings {
     enabled                     = var.policy_enabled
     mode                        = var.policy_mode
@@ -19,9 +33,7 @@ resource "azurerm_web_application_firewall_policy" "waf" {
 
   tags = local.tags
 
-  # ---------------------------
   # MANAGED RULES
-  # ---------------------------
   managed_rules {
 
     # Managed rule sets with rule-group overrides
@@ -33,7 +45,7 @@ resource "azurerm_web_application_firewall_policy" "waf" {
         version = managed_rule_set.value.version
 
         dynamic "rule_group_override" {
-          for_each = tolist(lookup(managed_rule_set.value, "rule_group_override_configuration", []))
+          for_each = coalesce(managed_rule_set.value.rule_group_override_configuration, [])
 
           content {
             rule_group_name = rule_group_override.value.rule_group_name
@@ -51,9 +63,7 @@ resource "azurerm_web_application_firewall_policy" "waf" {
       }
     }
 
-    # ---------------------------
     # EXCLUSIONS (MUST be inside managed_rules)
-    # ---------------------------
     dynamic "exclusion" {
       for_each = var.exclusion_configuration
 
@@ -85,9 +95,7 @@ resource "azurerm_web_application_firewall_policy" "waf" {
 
   } # END managed_rules
 
-  # ---------------------------
   # CUSTOM RULES
-  # ---------------------------
   dynamic "custom_rules" {
     for_each = var.custom_rules_configuration
 
@@ -117,5 +125,5 @@ resource "azurerm_web_application_firewall_policy" "waf" {
         }
       }
     }
-  }
+  } # END custom_rules
 }
