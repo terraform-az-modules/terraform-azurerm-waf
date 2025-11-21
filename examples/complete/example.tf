@@ -19,6 +19,7 @@ module "resource_group" {
 ## Virtual Network module call.
 ##-----------------------------------------------------------------------------
 module "vnet" {
+  depends_on          = [module.resource_group]
   source              = "terraform-az-modules/vnet/azurerm"
   version             = "1.0.3"
   name                = "app"

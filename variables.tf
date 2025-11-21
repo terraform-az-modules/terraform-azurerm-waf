@@ -28,6 +28,12 @@ variable "environment" {
   description = "Environment (e.g. `prod`, `dev`, `staging`)."
 }
 
+variable "enabled" {
+  type        = bool
+  default     = true
+  description = "Set to false to prevent the module from creating any resources."
+}
+
 variable "managedby" {
   type        = string
   default     = "terraform-az-modules"

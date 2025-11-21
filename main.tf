@@ -18,6 +18,7 @@ module "labels" {
 ## Azure WAF Policy - Main Resource
 ##-----------------------------------------------------------------------------
 resource "azurerm_web_application_firewall_policy" "waf" {
+  count               = var.enabled ? 1 : 0
   name                = var.name
   location            = var.location
   resource_group_name = var.resource_group_name
