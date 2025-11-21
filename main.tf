@@ -19,10 +19,10 @@ module "labels" {
 ##-----------------------------------------------------------------------------
 resource "azurerm_web_application_firewall_policy" "waf" {
   count               = var.enabled ? 1 : 0
-  name                = var.name
+  name                = var.resource_position_prefix ? format("waf-%s", local.name) : format("%s-waf", local.name)
   location            = var.location
   resource_group_name = var.resource_group_name
-
+  tags                = module.labels.tags
   # POLICY SETTINGS
   policy_settings {
     enabled                     = var.policy_enabled
@@ -31,8 +31,6 @@ resource "azurerm_web_application_firewall_policy" "waf" {
     request_body_check          = var.policy_request_body_check_enabled
     max_request_body_size_in_kb = var.policy_max_body_size
   }
-
-  tags = local.tags
 
   # MANAGED RULES
   managed_rules {

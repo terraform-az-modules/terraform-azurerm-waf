@@ -10,9 +10,9 @@ module "resource_group" {
   source      = "terraform-az-modules/resource-group/azurerm"
   version     = "1.0.3"
   name        = "waf"
-  environment = "test"
-  label_order = ["environment", "name", ]
-  location    = "Canada Central"
+  environment = "dev"
+  label_order = ["environment", "name", "location"]
+  location    = "canadacentral"
 }
 
 ##-----------------------------------------------------------------------------
@@ -23,8 +23,8 @@ module "vnet" {
   source              = "terraform-az-modules/vnet/azurerm"
   version             = "1.0.3"
   name                = "app"
-  environment         = "test"
-  label_order         = ["name", "environment"]
+  environment         = "dev"
+  label_order         = ["name", "environment", "location"]
   resource_group_name = module.resource_group.resource_group_name
   location            = module.resource_group.resource_group_location
   address_spaces      = ["10.0.0.0/16"]
@@ -36,8 +36,8 @@ module "vnet" {
 module "subnet" {
   source               = "terraform-az-modules/subnet/azurerm"
   version              = "1.0.1"
-  environment          = "test"
-  label_order          = ["name", "environment", ]
+  environment          = "dev"
+  label_order          = ["name", "environment", "location"]
   resource_group_name  = module.resource_group.resource_group_name
   location             = module.resource_group.resource_group_location
   virtual_network_name = module.vnet.vnet_name
@@ -54,7 +54,9 @@ module "subnet" {
 ##------------------------------------------------------------------------------
 module "waf" {
   source              = "../.."
-  name                = "my-waf"
+  name                = "test"
+  environment         = "dev"
+  label_order         = ["name", "environment", "location"]
   location            = module.resource_group.resource_group_location
   resource_group_name = module.resource_group.resource_group_name
   policy_enabled      = true

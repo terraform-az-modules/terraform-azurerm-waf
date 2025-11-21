@@ -28,6 +28,19 @@ variable "environment" {
   description = "Environment (e.g. `prod`, `dev`, `staging`)."
 }
 
+variable "resource_position_prefix" {
+  type        = bool
+  default     = true
+  description = <<EOT
+  Controls the placement of the resource type keyword (e.g., "vnet", "ddospp") in the resource name.
+
+  - If true, the keyword is prepended: "vnet-core-dev".
+  - If false, the keyword is appended: "core-dev-vnet".
+
+  This helps maintain naming consistency based on organizational preferences.
+  EOT
+}
+
 variable "enabled" {
   type        = bool
   default     = true
@@ -85,12 +98,6 @@ variable "principal_ids" {
   type        = list(string)
   default     = []
   description = "List of principal IDs to assign role to (optional)"
-}
-
-variable "tags" {
-  type        = map(string)
-  default     = {}
-  description = "Tags to apply to the WAF policy"
 }
 
 variable "policy_enabled" {

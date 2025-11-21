@@ -2,7 +2,7 @@
 
 # Terraform Azure Module Template
 
-This directory contains an example usage of the **terraform-azure-module-template**. It demonstrates how to use the module with default settings or with custom configurations.
+This example demonstrates how to use the `terraform-azure-waf` module to deploy an Web Application Firewall.
 
 ---
 
@@ -17,7 +17,8 @@ This directory contains an example usage of the **terraform-azure-module-templat
 
 ## 🔌 Providers
 
-None specified in this example.
+No providers are explicitly defined in this example.
+
 
 ---
 
