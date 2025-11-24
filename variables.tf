@@ -55,7 +55,7 @@ variable "managedby" {
 
 variable "repository" {
   type        = string
-  default     = "https://github.com/terraform-az-modules/terraform-azure-key-vault"
+  default     = "https://github.com/terraform-az-modules/terraform-azurerm-waf"
   description = "Terraform current module repo"
 
   validation {
