@@ -2,8 +2,7 @@
 
 # Terraform Azure Module Template
 
-This example demonstrates how to use the `terraform-azure-waf` module to deploy an Web Application Firewall.
-
+This example shows how to deploy an Azure `Web Application Firewall` (WAF) using the terraform-azure-waf module, including support for managed rule set overrides, custom rules, and exclusion rules.
 ---
 
 ## 📋 Requirements

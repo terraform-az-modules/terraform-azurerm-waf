@@ -65,6 +65,154 @@ module "waf" {
     {
       type    = "OWASP"
       version = "3.2"
+      rule_group_override_configuration = [
+        {
+          rule_group_name = "REQUEST-931-APPLICATION-ATTACK-RFI"
+          rule = [
+            {
+              id      = "931130"
+              enabled = false
+              action  = "AnomalyScoring"
+            }
+          ]
+        },
+        {
+          rule_group_name = "REQUEST-942-APPLICATION-ATTACK-SQLI"
+          rule = [
+            {
+              id      = "942340"
+              enabled = false
+              action  = "AnomalyScoring"
+            }
+          ]
+        },
+        {
+          rule_group_name = "REQUEST-920-PROTOCOL-ENFORCEMENT"
+          rule = [
+            {
+              id      = "920470"
+              enabled = false
+              action  = "AnomalyScoring"
+            }
+          ]
+        },
+        {
+          rule_group_name = "REQUEST-930-APPLICATION-ATTACK-LFI"
+          rule = [
+            {
+              id      = "930130"
+              enabled = false
+              action  = "AnomalyScoring"
+            }
+          ]
+        },
+        {
+          rule_group_name = "REQUEST-913-SCANNER-DETECTION"
+          rule = [
+            {
+              id      = "913101"
+              enabled = false
+              action  = "AnomalyScoring"
+            }
+          ]
+        },
+        {
+          rule_group_name = "REQUEST-932-APPLICATION-ATTACK-RCE"
+          rule = [
+            {
+              id      = "932150"
+              enabled = false
+              action  = "AnomalyScoring"
+            }
+          ]
+        },
+        {
+          rule_group_name = "REQUEST-941-APPLICATION-ATTACK-XSS"
+          rule = [
+            {
+              id      = "941130"
+              enabled = false
+              action  = "AnomalyScoring"
+            }
+          ]
+        },
+        {
+          rule_group_name = "REQUEST-921-PROTOCOL-ATTACK"
+          rule = [
+            {
+              id      = "921150"
+              enabled = false
+              action  = "AnomalyScoring"
+            }
+          ]
+        },
+        {
+          rule_group_name = "REQUEST-933-APPLICATION-ATTACK-PHP"
+          rule = [
+            {
+              id      = "933180"
+              enabled = false
+              action  = "AnomalyScoring"
+            }
+          ]
+        },
+        {
+          rule_group_name = "REQUEST-944-APPLICATION-ATTACK-JAVA"
+          rule = [
+            {
+              id      = "944130"
+              enabled = false
+              action  = "AnomalyScoring"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      type    = "Microsoft_BotManagerRuleSet"
+      version = "1.0"
+      rule_group_override_configuration = [
+        {
+          rule_group_name = "UnknownBots"
+          rule = [
+            {
+              id      = "300700"
+              enabled = false
+              action  = "Log"
+            }
+          ]
+        },
+        {
+          rule_group_name = "BadBots"
+          rule = [
+            {
+              id      = "100200"
+              enabled = false
+              action  = "Block"
+            },
+            {
+              id      = "100100"
+              enabled = false
+              action  = "Block"
+            },
+          ]
+        },
+        {
+          rule_group_name = "GoodBots"
+          rule = [
+            {
+              id      = "200100"
+              enabled = false
+              action  = "Allow"
+            },
+            {
+              id      = "200200"
+              enabled = false
+              action  = "Log"
+            }
+          ]
+        }
+      ]
     }
   ]
   custom_rules_configuration = [
@@ -118,13 +266,12 @@ module "waf" {
 ## Application Gateway Module Call
 ##------------------------------------------------------------------------------
 module "application_gateway" {
-  source              = "terraform-az-modules/application-gateway/azurerm"
-  name                = "appgw-demo"
-  version             = "1.0.0"
-  location            = module.resource_group.resource_group_location
-  resource_group_name = module.resource_group.resource_group_name
-  firewall_policy_id  = module.waf.waf_policy_id
-
+  source               = "terraform-az-modules/application-gateway/azurerm"
+  name                 = "appgw-demo"
+  version              = "1.0.0"
+  location             = module.resource_group.resource_group_location
+  resource_group_name  = module.resource_group.resource_group_name
+  firewall_policy_id   = module.waf.waf_policy_id
   external_waf_enabled = true
   sku = {
     name     = "WAF_v2"
