@@ -120,7 +120,7 @@ module "waf" {
 module "application_gateway" {
   source              = "terraform-az-modules/application-gateway/azurerm"
   name                = "appgw-demo"
-  version             = "1.0.0"
+  version             = "1.0.1"
   location            = module.resource_group.resource_group_location
   resource_group_name = module.resource_group.resource_group_name
   firewall_policy_id  = module.waf.waf_policy_id
