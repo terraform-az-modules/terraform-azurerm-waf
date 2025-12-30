@@ -10,6 +10,11 @@ jobs:
     uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
     with:
       working_directory: './examples/complete/'
+
+  managed-rule-overrides-example:
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
+    with:
+      working_directory: './examples/managed-rule-overrides/'
   
 # Seperate Job for TFlint workflow call
   tf-lint:
