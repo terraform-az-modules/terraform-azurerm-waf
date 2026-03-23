@@ -21,7 +21,7 @@ module "resource_group" {
 module "vnet" {
   depends_on          = [module.resource_group]
   source              = "terraform-az-modules/vnet/azurerm"
-  version             = "1.0.3"
+  version             = "1.0.4"
   name                = "app"
   environment         = "dev"
   label_order         = ["name", "environment", "location"]
